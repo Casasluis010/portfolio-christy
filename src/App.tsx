@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 
-// --- FOTOS DEL PORTFOLIO (Reemplaza estas URLs o importa tus fotos desde src/assets/) ---
 const heroCover = '/media/foto_perfil.christy.jpeg'
 const controlEstudio = '/media/2da_foto_prueba.jpeg'
 const reelCoverPlaceholder = 'https://placehold.co/600x1067/161616/7f4ca5?text=Portada+Reel'
