@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 
 // --- FOTOS DEL PORTFOLIO (Reemplaza estas URLs o importa tus fotos desde src/assets/) ---
-const heroCover = 'src/assets/images/foto_perfil.christy.JPG.jpeg'
-const controlEstudio = 'src/assets/images/2da_foto_prueba.JPG.jpeg'
+const heroCover = 'public/media/foto_perfil.christy.jpeg'
+const controlEstudio = 'public/media/2da_foto_prueba.jpeg'
 const reelCoverPlaceholder = 'https://placehold.co/600x1067/161616/7f4ca5?text=Portada+Reel'
 const showreelBannerPlaceholder = 'https://placehold.co/1800x800/111111/7f4ca5?text=Fondo+Showreel'
 const videoThumbPlaceholder = 'https://placehold.co/640x360/141414/7f4ca5?text=Video+del+Proyecto'
@@ -56,7 +56,7 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
       id: 'rec-1',
       tipo: 'video',
       titulo: 'Solo Baila',
-      url: 'src/assets/images/solobaila.mp4', 
+      url: 'public/media/solobaila.mp4', 
       duracionOPaginas: '01:45',
     },
   },
