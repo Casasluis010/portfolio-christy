@@ -38,9 +38,7 @@ interface ProyectoExperiencia {
   recurso: MediaRecurso // 1 único recurso: Video para los primeros 7, PDF para los últimos 2
 }
 
-// 9 Proyectos en total:
-// - Proyectos 1 al 7: Tienen SOLO 1 VIDEO cada uno.
-// - Proyectos 8 y 9: Tienen SOLO 1 PDF cada uno (nada de video).
+
 const EXPERIENCIA: ProyectoExperiencia[] = [
   {
     id: 'exp-1',
@@ -58,13 +56,13 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
       id: 'rec-1',
       tipo: 'video',
       titulo: 'Solo Baila',
-      url: 'src/assets/images/SoloBaila.mp4', // Reemplaza con tu video importado
+      url: 'src/assets/images/solobaila.mp4', 
       duracionOPaginas: '01:45',
     },
   },
   {
     id: 'exp-2',
-    empresa: 'Ciclo de Teatro Universitario',
+    empresa: 'No te fíes',
     rol: 'Realizadora Audiovisual & Asistente de Escena',
     periodo: '2025 – 2026',
     lugar: 'Proyecto Destacado 02',
@@ -76,14 +74,14 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
     recurso: {
       id: 'rec-2',
       tipo: 'video',
-      titulo: 'Registro Escénico · Ciclo de Teatro',
-      url: 'src/assets/images/notefíes.mov', // Reemplaza con tu video importado
+      titulo: 'No te fíes',
+      url: 'src/assets/images/notefies.mov', // Reemplaza con tu video importado
       duracionOPaginas: '02:15',
     },
   },
   {
     id: 'exp-3',
-    empresa: 'Cortometraje de Ficción "Ecos"',
+    empresa: 'Trailer Terminator',
     rol: 'Directora y Realizadora Audiovisual (Proyecto Académico)',
     periodo: '2025',
     lugar: 'Proyecto Destacado 03',
@@ -95,14 +93,14 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
     recurso: {
       id: 'rec-3',
       tipo: 'video',
-      titulo: 'Cortometraje "Ecos" · Corte Oficial',
-      url: 'src/assets/images/TráilerTerminator.mp4', // Reemplaza con tu video importado
+      titulo: 'Terminator',
+      url: 'src/assets/images/trailerterminator.mp4', // Reemplaza con tu video importado
       duracionOPaginas: '03:30',
     },
   },
   {
     id: 'exp-4',
-    empresa: 'Festival de Música & Artes Escénicas',
+    empresa: 'Desaparecido',
     rol: 'Productora de Eventos y Realizadora en Vivo',
     periodo: '2025',
     lugar: 'Proyecto Destacado 04',
@@ -114,7 +112,7 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
     recurso: {
       id: 'rec-4',
       tipo: 'video',
-      titulo: 'Aftermovie Oficial · Festival Escénico',
+      titulo: 'Desaparecido',
       url: 'src/assets/images/Desaparecido.mp4', // Reemplaza con tu video importado
       duracionOPaginas: '01:50',
     },
@@ -134,13 +132,13 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
       id: 'rec-5',
       tipo: 'video',
       titulo: 'Documental "Tras Bambalinas"',
-      url: 'src/assets/images/LCSDV.mp4', // Reemplaza con tu video importado
+      url: 'src/assets/images/lcdsv.mp4', // Reemplaza con tu video importado
       duracionOPaginas: '04:10',
     },
   },
   {
     id: 'exp-6',
-    empresa: 'Videoclip Musical & Performance Escénico',
+    empresa: 'Corporativo',
     rol: 'Directora de Arte y Realizadora Audiovisual',
     periodo: '2024',
     lugar: 'Proyecto Destacado 06',
@@ -152,14 +150,14 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
     recurso: {
       id: 'rec-6',
       tipo: 'video',
-      titulo: 'Videoclip Oficial & Performance',
-      url: 'src/assets/images/Corporativo 1.mp4', // Reemplaza con tu video importado
+      titulo: 'Corporativo',
+      url: 'src/assets/images/corporativo_1.mp4', // Reemplaza con tu video importado
       duracionOPaginas: '02:45',
     },
   },
   {
     id: 'exp-7',
-    empresa: 'Streaming Multicámara & Eventos en Vivo',
+    empresa: 'Redes sociales',
     rol: 'Coordinadora de Realización y Switcher en Vivo',
     periodo: '2024',
     lugar: 'Proyecto Destacado 07',
@@ -171,14 +169,14 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
     recurso: {
       id: 'rec-7',
       tipo: 'video',
-      titulo: 'Resumen Realización Multicámara en Vivo',
-      url: 'src/assets/images/VÍDEO_RRSS_1.mp4', // Reemplaza con tu video importado
+      titulo: 'Redes sociales',
+      url: 'src/assets/images/video_rrss_1.mp4', // Reemplaza con tu video importado
       duracionOPaginas: '01:30',
     },
   },
   {
     id: 'exp-8',
-    empresa: 'Dossier de Producción & Guion Técnico Teatral',
+    empresa: 'Guion Tratamiento',
     rol: 'Directora de Producción Escénica y Audiovisual',
     periodo: '2025',
     lugar: 'Proyecto Destacado 08 · Documento PDF',
@@ -190,14 +188,14 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
     recurso: {
       id: 'rec-8',
       tipo: 'pdf',
-      titulo: 'Dossier_Produccion_y_Guion_Tecnico.',
-      url: 'src/assets/images/Tratamiento Guion.pdf', // Reemplaza con la ruta de tu PDF importado
+      titulo: 'Guion tratamiento',
+      url: 'src/assets/images/tratamiento_guion.pdf', // Reemplaza con la ruta de tu PDF importado
       duracionOPaginas: '16 páginas · Documento PDF',
     },
   },
   {
     id: 'exp-9',
-    empresa: 'Manual de Regiduría & Escaleta de Eventos',
+    empresa: 'Guíon desarrollo de personaje',
     rol: 'Productora General de Eventos y Espectáculos',
     periodo: '2026',
     lugar: 'Proyecto Destacado 09 · Documento PDF',
@@ -209,8 +207,8 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
     recurso: {
       id: 'rec-9',
       tipo: 'pdf',
-      titulo: 'Escaleta_General_y_Proyecto_Eventos.pdf',
-      url: 'src/assets/images/Desarrollo de Personaje Guion.pdf', // Reemplaza con la ruta de tu PDF importado
+      titulo: 'Desarrollo de Personaje',
+      url: 'src/assets/images/desarrollo_personaje_guion.pdf', // Reemplaza con la ruta de tu PDF importado
       duracionOPaginas: '12 páginas · Documento PDF',
     },
   },
