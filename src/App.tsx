@@ -1,31 +1,30 @@
 import { useState, useEffect, useRef } from 'react'
 
-// --- 4 FOTOS Y PDFs IMPORTADOS CORRECTAMENTE ---
-import heroCover from './assets/images/foto_perfil_christy.jpg'
-import controlEstudio from './assets/images/2da_foto_prueba.jpg'
+
+import heroCover from './assets/images/foto_portada_christy.jpeg'
+import controlEstudio from './assets/images/foto_perfil_christy.jpeg'
 import portadaCocacola from './assets/images/cocacola.jpg'
 import portadaFlores from './assets/images/flores.jpg'
-import pdfTratamiento from './assets/images/tratamiento_guion.pdf'
-import pdfDesarrollo from './assets/images/desarrollo_personaje_guion.pdf'
 
+const reelCoverPlaceholder = 'https://placehold.co/600x1067/161616/7f4ca5?text=Portada+Reel'
 const showreelBannerPlaceholder = 'https://placehold.co/1800x800/111111/7f4ca5?text=Fondo+Showreel'
 const videoThumbPlaceholder = 'https://placehold.co/640x360/141414/7f4ca5?text=Trailer+YouTube'
 
-// --- DATOS DE CONTACTO OFICIALES ---
+// --- DATOS DE CONTACTO CENTRALIZADOS (YA ACTUALIZADOS CON TUS 3 LINKS) ---
 const EMAIL_CONTACTO = 'christy.contacto@gmail.com'
 const INSTAGRAM_LINK = 'https://www.instagram.com/ann.s.eyes?mdxt=MXU5Y2JpbzRlb3cxOQ%3D%3D&utm_source=qr'
 const YOUTUBE_CHANNEL_LINK = 'https://www.youtube.com/@chrian.n'
 
 const COMPETENCIAS = [
   'Realización Audiovisual',
-  'Producción de Teatro & Eventos',
   'Dirección de Arte & Escenografía',
-  'Edición (Premiere Pro · Final Cut · CapCut)',
-  'Guionismo & Storytelling',
+  'Montaje y etalonaje (Adobe Premiere, Davinci)',
+  'Guion & Storytelling',
   'Iluminación Escénica y de Estudio',
-  'Operación de Cámara & Sonido Directo',
-  'IA Generativa (Runway, Descript)',
-  'Gestión de Producción en Vivo',
+  'Manejo de cámara de foto ',
+  'Manejo de cámara ENG',
+  'VMIX',
+  'Google Workspace',
 ]
 
 interface MediaRecurso {
@@ -47,29 +46,28 @@ interface ProyectoExperiencia {
   recurso: MediaRecurso
 }
 
+// Función auxiliar que extrae el ID de cualquier link de YouTube (watch?v=, youtu.be/, embed/, shorts/)
 function getYouTubeId(url: string): string | null {
   const regExp = /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/
   const match = url.match(regExp)
   return match && match[1].length === 11 ? match[1] : null
 }
 
+// Proyectos de Experiencia
 const EXPERIENCIA: ProyectoExperiencia[] = [
   {
     id: 'exp-1',
     empresa: 'Solo Baila',
-    rol: 'Planificación, dirección, cámara',
-    periodo: '2024 – Presente',
-    lugar: 'Proyecto Destacado 01',
-    descripcion: 'Dirección y realización integral de piezas audiovisuales, cobertura de espectáculos en vivo y desarrollo visual para proyectos culturales y comerciales.',
+    rol: 'Planificación, dirección, cámara y postproducción',
+    periodo: '2025',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Pre-producción:', text: 'Conceptualización estética, elaboración de guiones técnicos, storyboards y planificación logística de rodajes.' },
-      { bold: 'Producción & Eventos:', text: 'Operación de cámara, diseño de iluminación en locación y registro multicámara de eventos y puestas en escena.' },
-      { bold: 'Post-producción:', text: 'Montaje rítmico en Premiere Pro y CapCut, etalonaje digital e integración de herramientas de IA generativa.' },
     ],
     recurso: {
       id: 'rec-1',
       tipo: 'youtube',
-      titulo: 'Solo Baila · Tráiler Oficial',
+      titulo: '',
       url: 'https://www.youtube.com/embed/hgrk4j001as?si=QernCbTisPJvUszS',
       duracionOPaginas: '0:30 · HD',
     },
@@ -77,18 +75,16 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
   {
     id: 'exp-2',
     empresa: 'No te fíes',
-    rol: 'Realizadora Audiovisual & Asistente de Escena',
-    periodo: '2025 – 2026',
-    lugar: 'Proyecto Destacado 02',
-    descripcion: 'Coordinación técnica, registro audiovisual y diseño de proyecciones visuales (mapping escénico) para obras teatrales estudiantiles e independientes.',
+    rol: 'Cámara, montaje y etalonaje básico',
+    periodo: '2025',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Escenografía & Luces:', text: 'Diseño de planta de iluminación teatral y programación de secuencias lumínicas y sonoras para funciones en vivo.' },
-      { bold: 'Registro Multicámara:', text: 'Grabación a tres cámaras de funciones completas y edición de tráilers promocionales de la temporada.' },
     ],
     recurso: {
       id: 'rec-2',
       tipo: 'youtube',
-      titulo: 'No te fíes · Corte Cinematográfico',
+      titulo: '',
       url: 'https://www.youtube.com/embed/Zc0C7T7HXN0?si=3vEhU-YBVoXZuqVr',
       duracionOPaginas: '1:16 · HD',
     },
@@ -96,18 +92,15 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
   {
     id: 'exp-3',
     empresa: 'VideoBook',
-    rol: 'Directora y Realizadora Audiovisual (Proyecto Académico)',
-    periodo: '2025',
-    lugar: 'Proyecto Destacado 03',
-    descripcion: 'Cortometraje narrativo desarrollado como práctica avanzada de realización cinematográfica, abarcando desde la escritura del guion hasta la distribución en festivales estudiantiles.',
-    items: [
-      { bold: 'Dirección de Actores:', text: 'Ensayos de mesa y puesta en escena con elenco teatral.' },
-      { bold: 'Fotografía y Sonido:', text: 'Diseño de encuadres expresivos y captura de sonido directo con microfonía inalámbrica y boom.' },
-    ],
+    rol: 'Montaje, etalonaje y subtítulos.',
+    periodo: '2026',
+    lugar: '',
+    descripcion: '',
+    items: [],
     recurso: {
       id: 'rec-3',
       tipo: 'youtube',
-      titulo: 'Terminator · Tráiler de Cine',
+      titulo: '',
       url: 'https://www.youtube.com/embed/mS9VuciEDQo?si=m_X9twzq_Uhlodeh',
       duracionOPaginas: '02:50 · HD',
     },
@@ -115,18 +108,16 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
   {
     id: 'exp-4',
     empresa: 'Desaparecido',
-    rol: 'Productora de Eventos y Realizadora en Vivo',
+    rol: 'Montaje y etalonaje.',
     periodo: '2025',
-    lugar: 'Proyecto Destacado 04',
-    descripcion: 'Producción logística de escenario, regiduría de artistas y realización de aftermovie oficial para festival cultural universitario.',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Regiduría de Escenario:', text: 'Control de tiempos, pruebas de sonido (soundcheck) y coordinación entre técnicos de luces y bandas.' },
-      { bold: 'Aftermovie & Reels:', text: 'Cobertura dinámica con gimbal y entrega de cápsulas en tiempo real para redes sociales.' },
     ],
     recurso: {
       id: 'rec-4',
       tipo: 'youtube',
-      titulo: 'Desaparecido · Proyección Oficial',
+      titulo: '',
       url: 'https://www.youtube.com/embed/98Qhw4_MZbw?si=rfDPG90LKUZTDakQ',
       duracionOPaginas: '03:00 · HD',
     },
@@ -134,18 +125,16 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
   {
     id: 'exp-5',
     empresa: 'Las chicas son de Venus',
-    rol: 'Realizadora Audiovisual & Investigadora',
-    periodo: '2024 – 2025',
-    lugar: 'Proyecto Destacado 05',
-    descripcion: 'Pieza documental enfocada en el trabajo de los técnicos, actores y tramoyistas antes de abrir el telón en el teatro local.',
+    rol: 'Planificación y montaje',
+    periodo: '2026',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Guion Documental:', text: 'Investigación testimonial, estructura de entrevistas y seguimiento observacional en camerinos.' },
-      { bold: 'Montaje Sonoro:', text: 'Diseño de paisaje acústico mezclando ambientes de sala, ensayos y música original.' },
     ],
     recurso: {
       id: 'rec-5',
       tipo: 'youtube',
-      titulo: 'Documental "Tras Bambalinas"',
+      titulo: '',
       url: 'https://www.youtube.com/embed/48sCQuh4LhA?si=4slZt7315fVAAWAE',
       duracionOPaginas: '05:54 · HD',
     },
@@ -153,18 +142,16 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
   {
     id: 'exp-6',
     empresa: 'Corporativo',
-    rol: 'Directora de Arte y Realizadora Audiovisual',
-    periodo: '2024',
-    lugar: 'Proyecto Destacado 06',
-    descripcion: 'Producción integral de pieza audiovisual corporativa y conceptual combinando iluminación estilizada y cámara en movimiento.',
+    rol: 'Planfiicación, dirección, operadora de cámara, montaje, subtítulos y etalonaje',
+    periodo: '2026',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Dirección de Arte:', text: 'Construcción de set, selección de vestuario, utilería y paleta cromática.' },
-      { bold: 'Edición & Postproducción:', text: 'Sincronización rítmica, efectos visuales dinámicos y corrección de color.' },
     ],
     recurso: {
       id: 'rec-6',
       tipo: 'youtube',
-      titulo: 'Corporativo · Reel Oficial',
+      titulo: '',
       url: 'https://www.youtube.com/embed/vN7J0L7AAl4?si=3xhZqt-z_pak1m4d',
       duracionOPaginas: '02:17 · HD',
     },
@@ -172,96 +159,58 @@ const EXPERIENCIA: ProyectoExperiencia[] = [
   {
     id: 'exp-7',
     empresa: 'Redes sociales',
-    rol: 'Coordinadora de Realización y Contenido Digital',
-    periodo: '2024',
-    lugar: 'Proyecto Destacado 07',
-    descripcion: 'Operación de realización audiovisual y creación de piezas dinámicas para plataformas digitales, eventos y presentaciones en vivo.',
+    rol: 'Planificación, montaje y etalonaje',
+    periodo: '2026',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Realización Dinámica:', text: 'Grabación ágil, inserción de gráficas y diseño visual para retención de audiencia.' },
-      { bold: 'Entregables:', text: 'Exportación optimizada para múltiples formatos y resumen ejecutivo del evento.' },
     ],
     recurso: {
       id: 'rec-7',
       tipo: 'youtube',
-      titulo: 'Redes Sociales · Showreel Digital',
+      titulo: '',
       url: 'https://www.youtube.com/embed/GYPpGXzNnaI?si=6Q8aMK_-6ZAH5QXd',
       duracionOPaginas: '01:18 · HD',
     },
   },
-  {
-    id: 'exp-8',
-    empresa: 'Guion Tratamiento',
-    rol: 'Directora de Producción Escénica y Audiovisual',
-    periodo: '2025',
-    lugar: 'Proyecto Destacado 08 · Documento PDF',
-    descripcion: 'Carpeta integral de pre-producción, desglose de guion técnico, planta de luces y planificación artística para montaje teatral y rodaje.',
-    items: [
-      { bold: 'Desglose Técnico:', text: 'Guion técnico literario, storyboard, listado de planos y requerimientos de utilería y vestuario.' },
-      { bold: 'Planta Escénica:', text: 'Esquema de iluminación teatral, posiciones de cámara y cronograma de ensayos.' },
-    ],
-    recurso: {
-      id: 'rec-8',
-      tipo: 'pdf',
-      titulo: 'Guion Tratamiento',
-      url: pdfTratamiento,
-      duracionOPaginas: '16 páginas · Documento PDF',
-    },
-  },
-  {
-    id: 'exp-9',
-    empresa: 'Guion desarrollo de personaje',
-    rol: 'Productora General de Eventos y Espectáculos',
-    periodo: '2026',
-    lugar: 'Proyecto Destacado 09 · Documento PDF',
-    descripcion: 'Proyecto documental con la construcción dramática, perfil psicológico de personajes, escaleta y propuesta estética de dirección.',
-    items: [
-      { bold: 'Construcción de Personaje:', text: 'Desarrollo de arco dramático, antecedentes, motivaciones y puesta en escena.' },
-      { bold: 'Guion y Logística:', text: 'Estructura narrativa, desglose de escenas y memoria descriptiva del proyecto.' },
-    ],
-    recurso: {
-      id: 'rec-9',
-      tipo: 'pdf',
-      titulo: 'Desarrollo de Personaje',
-      url: pdfDesarrollo,
-      duracionOPaginas: '12 páginas · Documento PDF',
-    },
-  },
 ]
 
-// Usando las 2 nuevas fotos importadas (`portadaCocacola` y `portadaFlores`) como portadas de los Reels
+// =========================================================================
+// 👇 AQUÍ (LÍNEAS 186 - 205) CAMBIAS LA FOTO DE PORTADA Y EL LINK DE CADA REEL 👇
+// =========================================================================
 const VIDEOS = [
   {
     id: 'v1',
     titulo: 'Realización Audiovisual & Escena',
     categoria: 'Teatro y Eventos · 2025',
     tipo: 'instagram',
-    portada: portadaCocacola,
-    reelId: 'DbEYCsrR3y1',
-    url: 'https://www.instagram.com/reel/DbEYCsrR3y1/',
+    portada: portadaCocacola, // <-- PON AQUÍ LA FOTO DE PORTADA DEL REEL 1 (ej: portadaReel1)
+    reelId: 'DQ_vB6nAsIt',          // <-- PON AQUÍ EL CÓDIGO DEL REEL 1 (lo que va después de /reel/)
+    url: 'https://www.instagram.com/reel/DQ_vB6nAsIt/', // <-- PON AQUÍ EL LINK DEL REEL 1
   },
   {
     id: 'v2',
     titulo: 'Producción Audiovisual en Vivo',
     categoria: 'Cobertura & Montaje · 2025',
     tipo: 'instagram',
-    portada: portadaFlores,
-    reelId: 'DbY4rLvzkIc',
-    url: 'https://www.instagram.com/reel/DbY4rLvzkIc/',
+    portada: portadaFlores, // <-- PON AQUÍ LA FOTO DE PORTADA DEL REEL 2 (ej: portadaReel2)
+    reelId: 'DSNFtkfgksJ',          // <-- PON AQUÍ EL CÓDIGO DEL REEL 2 (lo que va después de /reel/)
+    url: 'https://www.instagram.com/reel/DSNFtkfgksJ/?utm_source=ig_web_copy_link&exln=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==', // <-- PON AQUÍ EL LINK DEL REEL 2
   },
 ]
 
 const EDUCACION = [
-  { titulo: 'Estudiante de Realización Audiovisual, Teatro y Eventos', sub: 'Formación Académica y Práctica Escénica · En curso' },
-  { titulo: 'Producción Técnica de Espectáculos, Cine y Teatro', sub: 'Narrativa Visual · Iluminación Escénica · Sonido y Regiduría' },
-  { titulo: 'Edición Avanzada e IA Aplicada al Audiovisual', sub: 'Premiere Pro · Final Cut · CapCut · Runway ML · Descript' },
+  { titulo: 'Realización de Proyectos Audiovisuales y Espectáculos', sub: 'IFP Valcárcel - Madrid - 2026/2027 ' },
+  { titulo: 'Guion de ficción cinematografica', sub: 'Haz RTVE- 2025/2026' },
 ]
 
+// Lista de tarjetas de contacto derechas con los 3 enlaces funcionales que enviaste
 const CANALES_CONTACTO = [
   {
     label: 'EMAIL',
     value: EMAIL_CONTACTO,
-    href: `mailto:${EMAIL_CONTACTO}?subject=Contacto%20desde%20Portafolio%20Web%20-%20Christy%20Ortega%20P%C3%A9rez`,
-    external: false,
+    href: `mailto:${EMAIL_CONTACTO}christy.contacto@gmail.com`,
+    external: true,
   },
   {
     label: 'INSTAGRAM',
@@ -362,6 +311,7 @@ export default function App() {
               {label}
             </a>
           ))}
+          {/* BOTÓN DE CONTACTAR ARRIBA A LA DERECHA -> REDIRIGE A christy.contacto@gmail.com */}
           <a
             href={`mailto:${EMAIL_CONTACTO}?subject=Contacto%20desde%20Portafolio%20Web%20-%20Christy%20Ortega%20P%C3%A9rez`}
             style={{
@@ -445,7 +395,10 @@ export default function App() {
             <strong style={{ color: '#f0ece4', fontWeight: 600 }}>Realizadora Audiovisual, Teatro y Eventos · Estudiante de Audiovisuales</strong>
           </p>
           <p style={{ color: '#888070', fontSize: '0.88rem', maxWidth: 580, lineHeight: 1.6, marginBottom: '2.5rem' }}>
-            Producción Escénica · Dirección Audiovisual · Creación Multimedia & Espectáculos en Vivo
+            Regiduría de Espectáculos y Eventos -  
+            Realización de Cine y Vídeo - 
+            Edición de Piezas Audiovisuales y Vídeos - 
+            Realización de Televisión
           </p>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <a href="#experiencia" style={{
@@ -487,10 +440,10 @@ export default function App() {
           padding: '0 2.5rem',
         }}>
           {[
-            { n: 'Cine & TV', label: 'Realizadora Audiovisual · Christy Ortega Pérez' },
-            { n: 'Teatro', label: 'Producción Escénica y Dirección de Arte' },
+            { n: 'Cine & TV', label: 'Realizadora Audiovisual- Operadora de cámara - Planificación' },
+            { n: 'Teatro', label: 'Regiduría de espectaculos teatros y eventos.' },
             { n: 'Eventos', label: 'Cobertura Multicámara & Regiduría en Vivo' },
-            { n: 'IA + Post', label: 'Estudiante de Audiovisuales & Innovación' },
+            { n: 'Montaje Postproducción', label: 'Montaje digital en softwares profesionales' },
           ].map((stat, i) => (
             <div key={i} style={{
               padding: '2.5rem 2rem',
@@ -512,7 +465,7 @@ export default function App() {
                 Perfil Profesional · Christy Ortega Pérez · Realizadora Audiovisual, Teatro y Eventos
               </div>
               <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2rem, 4.5vw, 3.5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '1.5rem' }}>
-                Pasión por la<br />escena y la<br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}>narrativa visual</em>
+                Pasión por la<br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}>creación</em>
               </h2>
               <div style={{ position: 'relative', marginTop: '2rem' }}>
                 <div style={{ position: 'absolute', top: '-1rem', left: '-1rem', width: '100%', height: '100%', border: '1px solid rgba(127,76,165,0.3)' }} />
@@ -530,10 +483,10 @@ export default function App() {
           <FadeIn delay={120}>
             <div>
               <p style={{ color: '#a89e8e', fontSize: '0.98rem', lineHeight: 1.8, marginBottom: '1.5rem' }}>
-                <strong style={{ color: '#f0ece4' }}>Christy Ortega Pérez</strong> es estudiante de audiovisuales y <strong style={{ color: '#f0ece4' }}>Realizadora Audiovisual, Teatro y Eventos</strong>. Combina la sensibilidad artística del lenguaje cinematográfico con la energía del espectáculo en vivo, abarcando desde la concepción del guion y el montaje escénico hasta la realización técnica y postproducción digital.
+                <strong style={{ color: '#f0ece4' }}>Christy Ortega Pérez</strong> es una estudiante de último curso del Ciclo Formativo de Grado Superior en  <strong style={{ color: '#f0ece4' }}>Realización de Proyectos Audiovisuales y Espectáculos</strong> en Madrid en búsqueda de oportunidades de unirse a equipos y proyectos creativos. Combina la sensibilidad artística, lenguaje cinematográfico, versatilidad técnica y capacidad de organización y resolución en teatro espectáculo, televisión y postproducción.  
               </p>
               <p style={{ color: '#a89e8e', fontSize: '0.98rem', lineHeight: 1.8, marginBottom: '2.5rem' }}>
-                A través de proyectos académicos, independientes y comerciales en <strong style={{ color: '#f0ece4' }}>Visual IA Studio</strong>, integra dirección de cámara, diseño de iluminación, regiduría de eventos, edición avanzada e Inteligencia Artificial generativa para construir experiencias visuales y escénicas memorables.
+                A través de proyectos académicos, independientes ha logrado adquirir conocimientos en <strong style={{ color: '#f0ece4' }}> manejo de cámara, montaje y postproducción de vídeo, etalonaje, planificación televisiva de cíne y de vídeo, dirección artistica, creación de guiones, diseño de ilumiación básica y planificación y regiduría de eventos y teatros. </strong>
               </p>
 
               <div style={{ color: '#888070', fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
@@ -561,7 +514,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* EXPERIENCIA Y PROYECTOS */}
+      {/* EXPERIENCIA Y PROYECTOS (7 TRÁILERS DE YOUTUBE + 2 DOCUMENTOS PDF) */}
       <section id="experiencia" style={{ padding: 'clamp(4rem, 8vw, 8rem) 2.5rem', background: '#0d0d0d', borderBottom: '1px solid rgba(240,236,228,0.08)' }}>
         <FadeIn>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '2.5rem' }}>
@@ -573,7 +526,7 @@ export default function App() {
                 <em style={{ fontStyle: 'italic', color: '#7f4ca5' }}>Proyectos</em>
               </h2>
               <p style={{ color: '#888070', fontSize: '0.84rem', marginTop: '0.85rem' }}>
-                Desplázate horizontalmente por los 9 proyectos y <strong style={{ color: '#f0ece4' }}>pasa el cursor sobre cualquiera</strong> para desplegar su <span style={{ color: '#7f4ca5' }}>tráiler de cine (proyectos 1 al 7)</span> o su <span style={{ color: '#7f4ca5' }}>guion en PDF (proyectos 8 y 9)</span>.
+                Desplázate horizontalmente por los 7 proyectos y <strong style={{ color: '#f0ece4' }}>pasa el cursor sobre cualquiera</strong> para desplegarlo.<span style={{ color: '#7f4ca5' }}></span> <span style={{ color: '#7f4ca5' }}></span>
               </p>
             </div>
 
@@ -649,6 +602,7 @@ export default function App() {
                     position: 'relative',
                   }}
                 >
+                  {/* Cabecera de la tarjeta */}
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem' }}>
                       <span style={{
@@ -695,6 +649,7 @@ export default function App() {
                     </div>
                   </div>
 
+                  {/* SECCIÓN DESPLEGABLE AUTOMÁTICA AL PASAR EL CURSOR */}
                   <div style={{
                     maxHeight: isExpanded ? '440px' : '0px',
                     opacity: isExpanded ? 1 : 0,
@@ -704,6 +659,7 @@ export default function App() {
                     paddingTop: isExpanded ? '1.25rem' : '0',
                   }}>
                     {esYoutube ? (
+                      /* Vista estilo Tráiler de Cine para los proyectos 1 al 7 */
                       <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem' }}>
                           <span style={{ color: '#f0ece4', fontSize: '0.7rem', letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 600 }}>
@@ -733,6 +689,7 @@ export default function App() {
                             e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.65)'
                           }}
                         >
+                          {/* Pantalla con barras negras cinematográficas (letterbox) */}
                           <div style={{ position: 'relative', aspectRatio: '16/9', background: '#000', overflow: 'hidden' }}>
                             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '10%', background: '#040404', zIndex: 2 }} />
                             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '10%', background: '#040404', zIndex: 2 }} />
@@ -787,6 +744,7 @@ export default function App() {
                         </div>
                       </div>
                     ) : (
+                      /* Vista de 1 solo PDF para los proyectos 8 y 9 */
                       <div>
                         <div style={{ marginBottom: '0.65rem' }}>
                           <span style={{ color: '#f0ece4', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
@@ -828,6 +786,7 @@ export default function App() {
                     )}
                   </div>
 
+                  {/* Indicador inferior cuando está cerrado */}
                   {!isExpanded && (
                     <div style={{
                       marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid rgba(240,236,228,0.06)',
@@ -843,7 +802,7 @@ export default function App() {
         </FadeIn>
       </section>
 
-      {/* MODAL */}
+      {/* MODAL SALA DE PROYECCIÓN DE CINE (YOUTUBE) O VISOR DE PDF */}
       {activeMediaModal && (
         <div
           onClick={() => setActiveMediaModal(null)}
@@ -934,7 +893,7 @@ export default function App() {
                 Portafolio · Christy Ortega Pérez · Realizadora Audiovisual, Teatro y Eventos
               </div>
               <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1 }}>
-                Colaboraciones <br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}> de vídeo</em>
+                <br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}> REELS</em>
               </h2>
             </div>
             <a
@@ -983,7 +942,7 @@ export default function App() {
                       onClick={() => setPlayingVideo(video.id)}
                     >
                       <img
-                        src={video.portada}
+                        src={video.portada || reelCoverPlaceholder}
                         alt={video.titulo}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(30%)', display: 'block', transition: 'filter 0.4s, transform 0.5s' }}
                         onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.filter = 'grayscale(0%)'; (e.currentTarget as HTMLImageElement).style.transform = 'scale(1.03)' }}
@@ -1025,7 +984,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* EDUCACIÓN */}
+      {/* EDUCACIÓN (3 SECCIONES) */}
       <section id="educacion" style={{ padding: 'clamp(4rem, 8vw, 8rem) 2.5rem', background: '#0d0d0d', borderBottom: '1px solid rgba(240,236,228,0.08)' }}>
         <FadeIn>
           <div style={{ marginBottom: '3.5rem' }}>
@@ -1110,6 +1069,7 @@ export default function App() {
           }}
           className="two-col"
         >
+          {/* Columna Izquierda: Título grande + Texto + Botón Contactar */}
           <FadeIn>
             <div>
               <div style={{ color: '#888070', fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1rem' }}>
@@ -1124,9 +1084,9 @@ export default function App() {
                 marginBottom: '1.75rem',
                 color: '#f0ece4',
               }}>
-                ¿Necesitas una<br />
-                <span style={{ color: '#7f4ca5' }}>Realizadora</span><br />
-                <span style={{ color: '#7f4ca5' }}>Audiovisual?</span>
+                ¿Tienes un<br />
+                <span style={{ color: '#7f4ca5' }}>Proyecto</span><br />
+                <span style={{ color: '#7f4ca5' }}>en mente?</span>
               </h2>
 
               <p style={{
@@ -1136,7 +1096,7 @@ export default function App() {
                 marginBottom: '2.5rem',
                 maxWidth: 520,
               }}>
-                Enfocada en aportar valor a producciones audiovisuales, obras de teatro y eventos en vivo de alto impacto. Busco integrarme a equipos creativos y rodajes donde pueda aplicar mi formación técnica (Dirección, Cámara, Iluminación, Premiere Pro, CapCut y Guion) para construir narrativas visuales memorables. ¿Hablamos?
+                Enfocada en aportar valor a producciones audiovisuales, obras de teatro y eventos en vivo de alto impacto. Busco integrarme a equipos creativos y rodajes donde pueda aplicar mi formación técnica (Dirección, Cámara, Iluminación, Adobe Premiere , Davinci y Guion) para construir narrativas visuales memorables. ¿Hablamos?
               </p>
 
               <a
@@ -1170,6 +1130,7 @@ export default function App() {
             </div>
           </FadeIn>
 
+          {/* Columna Derecha: Cajas de contacto (Email, Instagram, YouTube) */}
           <FadeIn delay={120}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {CANALES_CONTACTO.map(item => (
