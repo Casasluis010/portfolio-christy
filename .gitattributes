@@ -148,3 +148,4 @@
 # These images stored as regular git objects (override LFS above)
 src/imports/portafolio_copia1.png -filter -diff -merge
 src/imports/Control_de_estudio_en_vivo.jpeg -filter -diff -merge
+src/assets/images/* -filter -diff -merge
