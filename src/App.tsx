@@ -1,26 +1,35 @@
 import { useState, useEffect, useRef } from 'react'
 
+
 import heroCover from './assets/images/foto_perfil_christy.jpg'
 import controlEstudio from './assets/images/2da_foto_prueba.jpg'
+import portadaCocacola from './assets/images/cocacola.jpg'
+import portadaFlores from './assets/images/flores.jpg'
+
 const reelCoverPlaceholder = 'https://placehold.co/600x1067/161616/7f4ca5?text=Portada+Reel'
 const showreelBannerPlaceholder = 'https://placehold.co/1800x800/111111/7f4ca5?text=Fondo+Showreel'
-const videoThumbPlaceholder = 'https://placehold.co/640x360/141414/7f4ca5?text=Video+del+Proyecto'
+const videoThumbPlaceholder = 'https://placehold.co/640x360/141414/7f4ca5?text=Trailer+YouTube'
+
+// --- DATOS DE CONTACTO CENTRALIZADOS (YA ACTUALIZADOS CON TUS 3 LINKS) ---
+const EMAIL_CONTACTO = 'christy.contacto@gmail.com'
+const INSTAGRAM_LINK = 'https://www.instagram.com/ann.s.eyes?mdxt=MXU5Y2JpbzRlb3cxOQ%3D%3D&utm_source=qr'
+const YOUTUBE_CHANNEL_LINK = 'https://www.youtube.com/@chrian.n'
 
 const COMPETENCIAS = [
   'Realización Audiovisual',
-  'Producción de Teatro & Eventos',
   'Dirección de Arte & Escenografía',
-  'Edición (Premiere Pro · Final Cut · CapCut)',
-  'Guionismo & Storytelling',
+  'Montaje y etalonaje (Adobe Premiere, Davinci)',
+  'Guion & Storytelling',
   'Iluminación Escénica y de Estudio',
-  'Operación de Cámara & Sonido Directo',
-  'IA Generativa (Runway, Descript)',
-  'Gestión de Producción en Vivo',
+  'Manejo de cámara de foto ',
+  'Manejo de cámara ENG',
+  'VMIX',
+  'Google Workspace',
 ]
 
 interface MediaRecurso {
   id: string
-  tipo: 'video' | 'pdf'
+  tipo: 'youtube' | 'pdf'
   titulo: string
   url: string
   duracionOPaginas: string
@@ -34,218 +43,187 @@ interface ProyectoExperiencia {
   lugar: string
   descripcion: string
   items: { bold: string; text: string }[]
-  recurso: MediaRecurso // 1 único recurso: Video para los primeros 7, PDF para los últimos 2
+  recurso: MediaRecurso
 }
 
+// Función auxiliar que extrae el ID de cualquier link de YouTube (watch?v=, youtu.be/, embed/, shorts/)
+function getYouTubeId(url: string): string | null {
+  const regExp = /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/
+  const match = url.match(regExp)
+  return match && match[1].length === 11 ? match[1] : null
+}
 
+// Proyectos de Experiencia
 const EXPERIENCIA: ProyectoExperiencia[] = [
   {
     id: 'exp-1',
     empresa: 'Solo Baila',
-    rol: 'Planificación, dirección, camara',
-    periodo: '2024 – Presente',
-    lugar: 'Proyecto Destacado 01',
-    descripcion: 'Dirección y realización integral de piezas audiovisuales, cobertura de espectáculos en vivo y desarrollo visual para proyectos culturales y comerciales.',
+    rol: 'Planificación, dirección, cámara y postproducción',
+    periodo: '2025',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Pre-producción:', text: 'Conceptualización estética, elaboración de guiones técnicos, storyboards y planificación logística de rodajes.' },
-      { bold: 'Producción & Eventos:', text: 'Operación de cámara, diseño de iluminación en locación y registro multicámara de eventos y puestas en escena.' },
-      { bold: 'Post-producción:', text: 'Montaje rítmico en Premiere Pro y CapCut, etalonaje digital e integración de herramientas de IA generativa.' },
     ],
     recurso: {
       id: 'rec-1',
-      tipo: 'video',
-      titulo: 'Solo Baila',
-      url: 'public/media/solobaila.mp4', 
-      duracionOPaginas: '01:45',
+      tipo: 'youtube',
+      titulo: '',
+      url: 'https://www.youtube.com/embed/hgrk4j001as?si=QernCbTisPJvUszS',
+      duracionOPaginas: '0:30 · HD',
     },
   },
   {
     id: 'exp-2',
     empresa: 'No te fíes',
-    rol: 'Realizadora Audiovisual & Asistente de Escena',
-    periodo: '2025 – 2026',
-    lugar: 'Proyecto Destacado 02',
-    descripcion: 'Coordinación técnica, registro audiovisual y diseño de proyecciones visuales (mapping escénico) para obras teatrales estudiantiles e independientes.',
+    rol: 'Cámara, montaje y etalonaje básico',
+    periodo: '2025',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Escenografía & Luces:', text: 'Diseño de planta de iluminación teatral y programación de secuencias lumínicas y sonoras para funciones en vivo.' },
-      { bold: 'Registro Multicámara:', text: 'Grabación a tres cámaras de funciones completas y edición de tráilers promocionales de la temporada.' },
     ],
     recurso: {
       id: 'rec-2',
-      tipo: 'video',
-      titulo: 'No te fíes',
-      url: 'src/assets/images/notefies.mov', // Reemplaza con tu video importado
-      duracionOPaginas: '02:15',
+      tipo: 'youtube',
+      titulo: '',
+      url: 'https://www.youtube.com/embed/Zc0C7T7HXN0?si=3vEhU-YBVoXZuqVr',
+      duracionOPaginas: '1:16 · HD',
     },
   },
   {
     id: 'exp-3',
-    empresa: 'Trailer Terminator',
-    rol: 'Directora y Realizadora Audiovisual (Proyecto Académico)',
-    periodo: '2025',
-    lugar: 'Proyecto Destacado 03',
-    descripcion: 'Cortometraje narrativo desarrollado como práctica avanzada de realización cinematográfica, abarcando desde la escritura del guion hasta la distribución en festivales estudiantiles.',
-    items: [
-      { bold: 'Dirección de Actores:', text: 'Ensayos de mesa y puesta en escena con elenco teatral.' },
-      { bold: 'Fotografía y Sonido:', text: 'Diseño de encuadres expresivos y captura de sonido directo con microfonía inalámbrica y boom.' },
-    ],
+    empresa: 'VideoBook',
+    rol: 'Montaje, etalonaje y subtítulos.',
+    periodo: '2026',
+    lugar: '',
+    descripcion: '',
+    items: [],
     recurso: {
       id: 'rec-3',
-      tipo: 'video',
-      titulo: 'Terminator',
-      url: 'src/assets/images/trailerterminator.mp4', // Reemplaza con tu video importado
-      duracionOPaginas: '03:30',
+      tipo: 'youtube',
+      titulo: '',
+      url: 'https://www.youtube.com/embed/mS9VuciEDQo?si=m_X9twzq_Uhlodeh',
+      duracionOPaginas: '02:50 · HD',
     },
   },
   {
     id: 'exp-4',
     empresa: 'Desaparecido',
-    rol: 'Productora de Eventos y Realizadora en Vivo',
+    rol: 'Montaje y etalonaje.',
     periodo: '2025',
-    lugar: 'Proyecto Destacado 04',
-    descripcion: 'Producción logística de escenario, regiduría de artistas y realización de aftermovie oficial para festival cultural universitario.',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Regiduría de Escenario:', text: 'Control de tiempos, pruebas de sonido (soundcheck) y coordinación entre técnicos de luces y bandas.' },
-      { bold: 'Aftermovie & Reels:', text: 'Cobertura dinámica con gimbal y entrega de cápsulas en tiempo real para redes sociales.' },
     ],
     recurso: {
       id: 'rec-4',
-      tipo: 'video',
-      titulo: 'Desaparecido',
-      url: 'src/assets/images/Desaparecido.mp4', // Reemplaza con tu video importado
-      duracionOPaginas: '01:50',
+      tipo: 'youtube',
+      titulo: '',
+      url: 'https://www.youtube.com/embed/98Qhw4_MZbw?si=rfDPG90LKUZTDakQ',
+      duracionOPaginas: '03:00 · HD',
     },
   },
   {
     id: 'exp-5',
-    empresa: 'Documental Cultural "Tras Bambalinas"',
-    rol: 'Realizadora Audiovisual & Investigadora',
-    periodo: '2024 – 2025',
-    lugar: 'Proyecto Destacado 05',
-    descripcion: 'Pieza documental enfocada en el trabajo de los técnicos, actores y tramoyistas antes de abrir el telón en el teatro local.',
+    empresa: 'Las chicas son de Venus',
+    rol: 'Planificación y montaje',
+    periodo: '2026',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Guion Documental:', text: 'Investigación testimonial, estructura de entrevistas y seguimiento observacional en camerinos.' },
-      { bold: 'Montaje Sonoro:', text: 'Diseño de paisaje acústico mezclando ambientes de sala, ensayos y música original.' },
     ],
     recurso: {
       id: 'rec-5',
-      tipo: 'video',
-      titulo: 'Documental "Tras Bambalinas"',
-      url: 'src/assets/images/lcdsv.mp4', // Reemplaza con tu video importado
-      duracionOPaginas: '04:10',
+      tipo: 'youtube',
+      titulo: '',
+      url: 'https://www.youtube.com/embed/48sCQuh4LhA?si=4slZt7315fVAAWAE',
+      duracionOPaginas: '05:54 · HD',
     },
   },
   {
     id: 'exp-6',
     empresa: 'Corporativo',
-    rol: 'Directora de Arte y Realizadora Audiovisual',
-    periodo: '2024',
-    lugar: 'Proyecto Destacado 06',
-    descripcion: 'Producción integral de videoclip conceptual combinando danza contemporánea, iluminación dramática teatral y cámara en movimiento.',
+    rol: 'Planfiicación, dirección, operadora de cámara, montaje, subtítulos y etalonaje',
+    periodo: '2026',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Dirección de Arte:', text: 'Construcción de set, selección de vestuario, utilería y paleta cromática.' },
-      { bold: 'Edición Musical:', text: 'Sincronización al beat, efectos visuales dinámicos y corrección de color estilizada.' },
     ],
     recurso: {
       id: 'rec-6',
-      tipo: 'video',
-      titulo: 'Corporativo',
-      url: 'src/assets/images/corporativo_1.mp4', // Reemplaza con tu video importado
-      duracionOPaginas: '02:45',
+      tipo: 'youtube',
+      titulo: '',
+      url: 'https://www.youtube.com/embed/vN7J0L7AAl4?si=3xhZqt-z_pak1m4d',
+      duracionOPaginas: '02:17 · HD',
     },
   },
   {
     id: 'exp-7',
     empresa: 'Redes sociales',
-    rol: 'Coordinadora de Realización y Switcher en Vivo',
-    periodo: '2024',
-    lugar: 'Proyecto Destacado 07',
-    descripcion: 'Operación de realización en directo para congresos, foros culturales y presentaciones en vivo con transmisión vía streaming.',
+    rol: 'Planificación, montaje y etalonaje',
+    periodo: '2026',
+    lugar: '',
+    descripcion: '',
     items: [
-      { bold: 'Realización en Directo:', text: 'Conmutación de cámaras en vivo, inserción de gráficas (lower thirds) y control de audio de sala.' },
-      { bold: 'Entregables:', text: 'Exportación de ponencias individuales y resumen ejecutivo del evento.' },
     ],
     recurso: {
       id: 'rec-7',
-      tipo: 'video',
-      titulo: 'Redes sociales',
-      url: 'src/assets/images/video_rrss_1.mp4', // Reemplaza con tu video importado
-      duracionOPaginas: '01:30',
-    },
-  },
-  {
-    id: 'exp-8',
-    empresa: 'Guion Tratamiento',
-    rol: 'Directora de Producción Escénica y Audiovisual',
-    periodo: '2025',
-    lugar: 'Proyecto Destacado 08 · Documento PDF',
-    descripcion: 'Carpeta integral de pre-producción, desglose de guion técnico, planta de luces y planificación artística para montaje teatral y rodaje.',
-    items: [
-      { bold: 'Desglose Técnico:', text: 'Guion técnico literario, storyboard, listado de planos y requerimientos de utilería y vestuario.' },
-      { bold: 'Planta Escénica:', text: 'Esquema de iluminación teatral, posiciones de cámara y cronograma de ensayos.' },
-    ],
-    recurso: {
-      id: 'rec-8',
-      tipo: 'pdf',
-      titulo: 'Guion tratamiento',
-      url: 'src/assets/images/tratamiento_guion.pdf', // Reemplaza con la ruta de tu PDF importado
-      duracionOPaginas: '16 páginas · Documento PDF',
-    },
-  },
-  {
-    id: 'exp-9',
-    empresa: 'Guíon desarrollo de personaje',
-    rol: 'Productora General de Eventos y Espectáculos',
-    periodo: '2026',
-    lugar: 'Proyecto Destacado 09 · Documento PDF',
-    descripcion: 'Proyecto documental con la planificación logística, escaleta minuto a minuto, rider técnico de sonido/video y protocolo de regiduría en vivo.',
-    items: [
-      { bold: 'Escaleta & Rider Técnico:', text: 'Planificación detallada de entradas de audio, cues de iluminación, video proyección y tiempos en escenario.' },
-      { bold: 'Presupuesto y Logística:', text: 'Organigrama de equipo técnico, plan de rodaje/montaje y memoria descriptiva del espectáculo.' },
-    ],
-    recurso: {
-      id: 'rec-9',
-      tipo: 'pdf',
-      titulo: 'Desarrollo de Personaje',
-      url: 'src/assets/images/desarrollo_personaje_guion.pdf', // Reemplaza con la ruta de tu PDF importado
-      duracionOPaginas: '12 páginas · Documento PDF',
+      tipo: 'youtube',
+      titulo: '',
+      url: 'https://www.youtube.com/embed/GYPpGXzNnaI?si=6Q8aMK_-6ZAH5QXd',
+      duracionOPaginas: '01:18 · HD',
     },
   },
 ]
 
+// =========================================================================
+// 👇 AQUÍ (LÍNEAS 186 - 205) CAMBIAS LA FOTO DE PORTADA Y EL LINK DE CADA REEL 👇
+// =========================================================================
 const VIDEOS = [
   {
     id: 'v1',
     titulo: 'Realización Audiovisual & Escena',
     categoria: 'Teatro y Eventos · 2025',
     tipo: 'instagram',
-    reelId: 'DbEYCsrR3y1',
-    url: 'https://www.instagram.com/reel/DbEYCsrR3y1/',
+    portada: portadaCocacola, // <-- PON AQUÍ LA FOTO DE PORTADA DEL REEL 1 (ej: portadaReel1)
+    reelId: 'DQ_vB6nAsIt',          // <-- PON AQUÍ EL CÓDIGO DEL REEL 1 (lo que va después de /reel/)
+    url: 'https://www.instagram.com/reel/DQ_vB6nAsIt/', // <-- PON AQUÍ EL LINK DEL REEL 1
   },
   {
     id: 'v2',
     titulo: 'Producción Audiovisual en Vivo',
     categoria: 'Cobertura & Montaje · 2025',
     tipo: 'instagram',
-    reelId: 'DbY4rLvzkIc',
-    url: 'https://www.instagram.com/reel/DbY4rLvzkIc/',
-  },
-  {
-    id: 'v3',
-    titulo: 'Dirección de Arte & Contenido',
-    categoria: 'Proyecto Audiovisual · 2025',
-    tipo: 'instagram',
-    reelId: 'DUBnaXfka-W',
-    url: 'https://www.instagram.com/reel/DUBnaXfka-W/',
+    portada: portadaFlores, // <-- PON AQUÍ LA FOTO DE PORTADA DEL REEL 2 (ej: portadaReel2)
+    reelId: 'DSNFtkfgksJ',          // <-- PON AQUÍ EL CÓDIGO DEL REEL 2 (lo que va después de /reel/)
+    url: 'https://www.instagram.com/reel/DSNFtkfgksJ/?utm_source=ig_web_copy_link&exln=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==', // <-- PON AQUÍ EL LINK DEL REEL 2
   },
 ]
 
 const EDUCACION = [
-  { titulo: 'Estudiante de Realización Audiovisual, Teatro y Eventos', sub: 'Formación Académica y Práctica Escénica · En curso' },
-  { titulo: 'Comunicación Social & Producción Multimedia', sub: 'Narrativa Visual · Dirección y Guion' },
-  { titulo: 'Producción Técnica de Espectáculos y Teatro', sub: 'Iluminación Escénica · Sonido y Regiduría' },
-  { titulo: 'Edición Avanzada e IA Aplicada al Audiovisual', sub: 'Premiere Pro · Final Cut · Runway ML · Descript' },
-  { titulo: 'Taller de Cámara, Fotografía e Iluminación', sub: 'Lenguaje Cinematográfico y Cobertura de Eventos' },
+  { titulo: 'Realización de Proyectos Audiovisuales y Espectáculos', sub: 'IFP Valcárcel - Madrid - 2026/2027 ' },
+  { titulo: 'Guion de ficción cinematografica', sub: 'Haz RTVE- 2025/2026' },
+]
+
+// Lista de tarjetas de contacto derechas con los 3 enlaces funcionales que enviaste
+const CANALES_CONTACTO = [
+  {
+    label: 'EMAIL',
+    value: EMAIL_CONTACTO,
+    href: `mailto:${EMAIL_CONTACTO}christy.contacto@gmail.com`,
+    external: true,
+  },
+  {
+    label: 'INSTAGRAM',
+    value: '@ann.s.eyes',
+    href: INSTAGRAM_LINK,
+    external: true,
+  },
+  {
+    label: 'YOUTUBE',
+    value: 'youtube.com/@chrian.n',
+    href: YOUTUBE_CHANNEL_LINK,
+    external: true,
+  },
 ]
 
 function useInView(threshold = 0.12) {
@@ -283,25 +261,15 @@ function FadeIn({ children, delay = 0, className = '' }: { children: React.React
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
-  // Guarda cuál de las 9 experiencias está desplegada al pasar el cursor (o hacer clic en móvil)
   const [hoveredExp, setHoveredExp] = useState<number | null>(0)
   const [activeMediaModal, setActiveMediaModal] = useState<MediaRecurso | null>(null)
   const [playingVideo, setPlayingVideo] = useState<string | null>(null)
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
-  const [sent, setSent] = useState(false)
 
   const expCarouselRef = useRef<HTMLDivElement>(null)
 
   const scrollCarousel = (el: HTMLDivElement | null, dir: 'left' | 'right', amount = 420) => {
     if (!el) return
     el.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' })
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSent(true)
-    setFormData({ name: '', email: '', message: '' })
-    setTimeout(() => setSent(false), 4000)
   }
 
   const navItems = [
@@ -343,8 +311,9 @@ export default function App() {
               {label}
             </a>
           ))}
+          {/* BOTÓN DE CONTACTAR ARRIBA A LA DERECHA -> REDIRIGE A christy.contacto@gmail.com */}
           <a
-            href="#contacto"
+            href={`mailto:${EMAIL_CONTACTO}?subject=Contacto%20desde%20Portafolio%20Web%20-%20Christy%20Ortega%20P%C3%A9rez`}
             style={{
               background: '#7f4ca5', color: '#f0ece4',
               padding: '0.45rem 1.1rem',
@@ -354,7 +323,7 @@ export default function App() {
             onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
           >
-            Contactar
+            Contactar ↗
           </a>
         </div>
         <button
@@ -378,6 +347,17 @@ export default function App() {
               {label}
             </a>
           ))}
+          <a
+            href={`mailto:${EMAIL_CONTACTO}?subject=Contacto%20desde%20Portafolio%20Web%20-%20Christy%20Ortega%20P%C3%A9rez`}
+            onClick={() => setMenuOpen(false)}
+            style={{
+              background: '#7f4ca5', color: '#f0ece4',
+              padding: '0.85rem 2rem', fontSize: '0.9rem', letterSpacing: '0.08em',
+              textTransform: 'uppercase', fontWeight: 700, textDecoration: 'none',
+            }}
+          >
+            Enviar Correo ↗
+          </a>
         </div>
       )}
 
@@ -415,7 +395,10 @@ export default function App() {
             <strong style={{ color: '#f0ece4', fontWeight: 600 }}>Realizadora Audiovisual, Teatro y Eventos · Estudiante de Audiovisuales</strong>
           </p>
           <p style={{ color: '#888070', fontSize: '0.88rem', maxWidth: 580, lineHeight: 1.6, marginBottom: '2.5rem' }}>
-            Producción Escénica · Dirección Audiovisual · Creación Multimedia & Espectáculos en Vivo
+            Regiduría de Espectáculos y Eventos -  
+            Realización de Cine y Vídeo - 
+            Edición de Piezas Audiovisuales y Vídeos - 
+            Realización de Televisión
           </p>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
             <a href="#experiencia" style={{
@@ -457,10 +440,10 @@ export default function App() {
           padding: '0 2.5rem',
         }}>
           {[
-            { n: 'Cine & TV', label: 'Realizadora Audiovisual · Christy Ortega Pérez' },
-            { n: 'Teatro', label: 'Producción Escénica y Dirección de Arte' },
+            { n: 'Cine & TV', label: 'Realizadora Audiovisual- Operadora de cámara - Planificación' },
+            { n: 'Teatro', label: 'Regiduría de espectaculos teatros y eventos.' },
             { n: 'Eventos', label: 'Cobertura Multicámara & Regiduría en Vivo' },
-            { n: 'IA + Post', label: 'Estudiante de Audiovisuales & Innovación' },
+            { n: 'Montaje Postproducción', label: 'Montaje digital en softwares profesionales' },
           ].map((stat, i) => (
             <div key={i} style={{
               padding: '2.5rem 2rem',
@@ -482,7 +465,7 @@ export default function App() {
                 Perfil Profesional · Christy Ortega Pérez · Realizadora Audiovisual, Teatro y Eventos
               </div>
               <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2rem, 4.5vw, 3.5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '1.5rem' }}>
-                Pasión por la<br />escena y la<br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}>narrativa visual</em>
+                Pasión por la<br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}>creación</em>
               </h2>
               <div style={{ position: 'relative', marginTop: '2rem' }}>
                 <div style={{ position: 'absolute', top: '-1rem', left: '-1rem', width: '100%', height: '100%', border: '1px solid rgba(127,76,165,0.3)' }} />
@@ -500,10 +483,10 @@ export default function App() {
           <FadeIn delay={120}>
             <div>
               <p style={{ color: '#a89e8e', fontSize: '0.98rem', lineHeight: 1.8, marginBottom: '1.5rem' }}>
-                <strong style={{ color: '#f0ece4' }}>Christy Ortega Pérez</strong> es estudiante de audiovisuales y <strong style={{ color: '#f0ece4' }}>Realizadora Audiovisual, Teatro y Eventos</strong>. Combina la sensibilidad artística del lenguaje cinematográfico con la energía del espectáculo en vivo, abarcando desde la concepción del guion y el montaje escénico hasta la realización técnica y postproducción digital.
+                <strong style={{ color: '#f0ece4' }}>Christy Ortega Pérez</strong> es una estudiante de último curso del Ciclo Formativo de Grado Superior en  <strong style={{ color: '#f0ece4' }}>Realización de Proyectos Audiovisuales y Espectáculos</strong> en Madrid en búsqueda de oportunidades de unirse a equipos y proyectos creativos. Combina la sensibilidad artística, lenguaje cinematográfico, versatilidad técnica y capacidad de organización y resolución en teatro espectáculo, televisión y postproducción.  
               </p>
               <p style={{ color: '#a89e8e', fontSize: '0.98rem', lineHeight: 1.8, marginBottom: '2.5rem' }}>
-                A través de proyectos académicos, independientes y comerciales en <strong style={{ color: '#f0ece4' }}>Visual IA Studio</strong>, integra dirección de cámara, diseño de iluminación, regiduría de eventos, edición avanzada e Inteligencia Artificial generativa para construir experiencias visuales y escénicas memorables.
+                A través de proyectos académicos, independientes ha logrado adquirir conocimientos en <strong style={{ color: '#f0ece4' }}> manejo de cámara, montaje y postproducción de vídeo, etalonaje, planificación televisiva de cíne y de vídeo, dirección artistica, creación de guiones, diseño de ilumiación básica y planificación y regiduría de eventos y teatros. </strong>
               </p>
 
               <div style={{ color: '#888070', fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1.25rem' }}>
@@ -531,7 +514,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* EXPERIENCIA LABORAL Y PROYECTOS (7 CON 1 VIDEO + 2 CON 1 PDF AL PASAR EL CURSOR) */}
+      {/* EXPERIENCIA Y PROYECTOS (7 TRÁILERS DE YOUTUBE + 2 DOCUMENTOS PDF) */}
       <section id="experiencia" style={{ padding: 'clamp(4rem, 8vw, 8rem) 2.5rem', background: '#0d0d0d', borderBottom: '1px solid rgba(240,236,228,0.08)' }}>
         <FadeIn>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '2.5rem' }}>
@@ -543,11 +526,10 @@ export default function App() {
                 <em style={{ fontStyle: 'italic', color: '#7f4ca5' }}>Proyectos</em>
               </h2>
               <p style={{ color: '#888070', fontSize: '0.84rem', marginTop: '0.85rem' }}>
-                Desplázate horizontalmente por los 9 proyectos y <strong style={{ color: '#f0ece4' }}>pasa el cursor sobre cualquiera</strong> para desplegar su <span style={{ color: '#7f4ca5' }}>video (proyectos 1 al 7)</span> o su <span style={{ color: '#7f4ca5' }}>documento PDF (proyectos 8 y 9)</span>.
+                Desplázate horizontalmente por los 7 proyectos y <strong style={{ color: '#f0ece4' }}>pasa el cursor sobre cualquiera</strong> para desplegarlo.<span style={{ color: '#7f4ca5' }}></span> <span style={{ color: '#7f4ca5' }}></span>
               </p>
             </div>
 
-            {/* Botones de desplazamiento del carrusel principal */}
             <div style={{ display: 'flex', gap: '0.6rem' }}>
               <button
                 type="button"
@@ -597,7 +579,9 @@ export default function App() {
           >
             {EXPERIENCIA.map((exp, i) => {
               const isExpanded = hoveredExp === i
-              const esVideo = exp.recurso.tipo === 'video'
+              const esYoutube = exp.recurso.tipo === 'youtube'
+              const ytId = esYoutube ? getYouTubeId(exp.recurso.url) : null
+              const thumbUrl = ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : videoThumbPlaceholder
 
               return (
                 <div
@@ -605,7 +589,7 @@ export default function App() {
                   onMouseEnter={() => setHoveredExp(i)}
                   onClick={() => setHoveredExp(i)}
                   style={{
-                    flex: isExpanded ? '0 0 min(90vw, 540px)' : '0 0 min(85vw, 350px)',
+                    flex: isExpanded ? '0 0 min(90vw, 560px)' : '0 0 min(85vw, 350px)',
                     background: isExpanded ? '#141118' : '#111111',
                     border: isExpanded ? '1px solid #7f4ca5' : '1px solid rgba(240,236,228,0.08)',
                     padding: '2rem',
@@ -628,14 +612,14 @@ export default function App() {
                         #{String(i + 1).padStart(2, '0')} · {exp.periodo}
                       </span>
                       <span style={{
-                        fontSize: '0.68rem', letterSpacing: '0.08em', textTransform: 'uppercase',
+                        fontSize: '0.66rem', letterSpacing: '0.1em', textTransform: 'uppercase',
                         padding: '0.25rem 0.65rem',
                         background: isExpanded ? '#7f4ca5' : 'rgba(127,76,165,0.15)',
                         color: '#f0ece4',
                         transition: 'background 0.3s',
                         fontWeight: 600,
                       }}>
-                        {esVideo ? '🎬 1 Video' : '📄 1 PDF'}
+                        {esYoutube ? '🎬 Tráiler YouTube' : '📄 Guion PDF'}
                       </span>
                     </div>
 
@@ -665,71 +649,102 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* SECCIÓN DESPLEGABLE AUTOMÁTICA AL PASAR EL CURSOR: 1 VIDEO (PROYECTOS 1-7) O 1 PDF (PROYECTOS 8-9) */}
+                  {/* SECCIÓN DESPLEGABLE AUTOMÁTICA AL PASAR EL CURSOR */}
                   <div style={{
-                    maxHeight: isExpanded ? '420px' : '0px',
+                    maxHeight: isExpanded ? '440px' : '0px',
                     opacity: isExpanded ? 1 : 0,
                     overflow: 'hidden',
                     transition: 'max-height 0.5s ease, opacity 0.4s ease',
                     borderTop: isExpanded ? '1px solid rgba(127,76,165,0.3)' : '1px solid transparent',
                     paddingTop: isExpanded ? '1.25rem' : '0',
                   }}>
-                    {esVideo ? (
-                      /* Vista de 1 solo Video para los primeros 7 proyectos */
+                    {esYoutube ? (
+                      /* Vista estilo Tráiler de Cine para los proyectos 1 al 7 */
                       <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem' }}>
-                          <span style={{ color: '#f0ece4', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                            🎬 Video del Proyecto
+                          <span style={{ color: '#f0ece4', fontSize: '0.7rem', letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 600 }}>
+                            🎞️ Proyección · Estilo Tráiler de Cine
                           </span>
-                          <span style={{ color: '#888070', fontSize: '0.68rem' }}>Haz clic para reproducir</span>
+                          <span style={{ color: '#7f4ca5', fontSize: '0.68rem', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>
+                            YouTube Cinema
+                          </span>
                         </div>
 
                         <div
                           onClick={e => { e.stopPropagation(); setActiveMediaModal(exp.recurso) }}
                           style={{
-                            background: '#0b0b0b',
-                            border: '1px solid rgba(127,76,165,0.45)',
+                            background: '#050505',
+                            border: '1px solid rgba(127,76,165,0.55)',
                             overflow: 'hidden',
                             cursor: 'pointer',
-                            transition: 'transform 0.2s, border-color 0.2s',
+                            transition: 'transform 0.25s, box-shadow 0.25s',
+                            boxShadow: '0 10px 30px rgba(0,0,0,0.65)',
                           }}
-                          onMouseEnter={e => { e.currentTarget.style.borderColor = '#7f4ca5'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-                          onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(127,76,165,0.45)'; e.currentTarget.style.transform = 'none' }}
+                          onMouseEnter={e => {
+                            e.currentTarget.style.transform = 'scale(1.015)'
+                            e.currentTarget.style.boxShadow = '0 14px 36px rgba(127,76,165,0.28)'
+                          }}
+                          onMouseLeave={e => {
+                            e.currentTarget.style.transform = 'scale(1)'
+                            e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.65)'
+                          }}
                         >
-                          <div style={{ position: 'relative', aspectRatio: '16/9', background: '#161616' }}>
+                          {/* Pantalla con barras negras cinematográficas (letterbox) */}
+                          <div style={{ position: 'relative', aspectRatio: '16/9', background: '#000', overflow: 'hidden' }}>
+                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '10%', background: '#040404', zIndex: 2 }} />
+                            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '10%', background: '#040404', zIndex: 2 }} />
+
                             <img
-                              src={videoThumbPlaceholder}
+                              src={thumbUrl}
                               alt={exp.recurso.titulo}
-                              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.8 }}
+                              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.78, filter: 'contrast(1.08)' }}
                             />
-                            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
+                            <div style={{
+                              position: 'absolute', inset: 0,
+                              background: 'radial-gradient(circle, rgba(8,8,8,0.15) 20%, rgba(5,5,5,0.8) 100%)',
+                              zIndex: 1,
+                            }} />
+
+                            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', zIndex: 3 }}>
                               <div style={{
-                                width: 52, height: 52, borderRadius: '50%', background: 'rgba(127,76,165,0.92)',
+                                width: 58, height: 58, borderRadius: '50%',
+                                background: 'rgba(127,76,165,0.92)',
+                                border: '2px solid rgba(240,236,228,0.85)',
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                                boxShadow: '0 0 25px rgba(127,76,165,0.8)',
                               }}>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="#f0ece4"><polygon points="8,5 19,12 8,19" /></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#f0ece4"><polygon points="8,5 19,12 8,19" /></svg>
                               </div>
+                              <span style={{
+                                fontSize: '0.62rem', letterSpacing: '0.22em', textTransform: 'uppercase',
+                                color: '#f0ece4', background: 'rgba(8,8,8,0.75)', padding: '0.2rem 0.6rem', fontWeight: 600,
+                              }}>
+                                Ver Tráiler
+                              </span>
                             </div>
+
                             <span style={{
-                              position: 'absolute', bottom: 8, right: 10, background: 'rgba(8,8,8,0.85)',
-                              color: '#f0ece4', fontSize: '0.68rem', padding: '2px 8px', border: '1px solid rgba(127,76,165,0.4)',
+                              position: 'absolute', bottom: '13%', right: 10, background: 'rgba(8,8,8,0.88)',
+                              color: '#f0ece4', fontSize: '0.65rem', padding: '2px 8px', border: '1px solid rgba(127,76,165,0.4)',
+                              zIndex: 3, letterSpacing: '0.06em',
                             }}>
                               {exp.recurso.duracionOPaginas}
                             </span>
                           </div>
-                          <div style={{ padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                          <div style={{ padding: '0.8rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0c0a0e' }}>
                             <div style={{ color: '#f0ece4', fontSize: '0.84rem', fontWeight: 600 }}>
                               {exp.recurso.titulo}
                             </div>
-                            <span style={{ color: '#7f4ca5', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                              Reproducir →
+                            <span style={{ color: '#7f4ca5', fontSize: '0.74rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                              Reproducir en Cine →
                             </span>
                           </div>
                         </div>
                       </div>
                     ) : (
-                      /* Vista de 1 solo PDF para los últimos 2 proyectos (nada de video) */
+                      /* Vista de 1 solo PDF para los proyectos 8 y 9 */
                       <div>
                         <div style={{ marginBottom: '0.65rem' }}>
                           <span style={{ color: '#f0ece4', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
@@ -777,7 +792,7 @@ export default function App() {
                       marginTop: 'auto', paddingTop: '0.85rem', borderTop: '1px solid rgba(240,236,228,0.06)',
                       color: '#7f4ca5', fontSize: '0.73rem', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600,
                     }}>
-                      {esVideo ? 'Pasa el cursor para desplegar el video →' : 'Pasa el cursor para desplegar el PDF →'}
+                      {esYoutube ? 'Pasa el cursor para ver el tráiler →' : 'Pasa el cursor para desplegar el PDF →'}
                     </div>
                   )}
                 </div>
@@ -787,71 +802,89 @@ export default function App() {
         </FadeIn>
       </section>
 
-      {/* MODAL PARA PREVISUALIZAR EL VIDEO O PDF SELECCIONADO DE UNA EXPERIENCIA */}
+      {/* MODAL SALA DE PROYECCIÓN DE CINE (YOUTUBE) O VISOR DE PDF */}
       {activeMediaModal && (
         <div
           onClick={() => setActiveMediaModal(null)}
           style={{
-            position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(8,8,8,0.88)',
-            backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem',
+            position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(4,4,4,0.94)',
+            backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem',
           }}
         >
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              background: '#121212', border: '1px solid #7f4ca5', maxWidth: 720, width: '100%',
-              padding: '1.75rem', position: 'relative',
+              background: '#0d0b10', border: '1px solid #7f4ca5', maxWidth: 920, width: '100%',
+              padding: '1.75rem', position: 'relative', boxShadow: '0 25px 70px rgba(0,0,0,0.9)',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.75rem' }}>
               <div>
-                <span style={{ color: '#7f4ca5', fontSize: '0.68rem', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                  {activeMediaModal.tipo === 'video' ? 'Reproductor de Video' : 'Visor de Documento PDF'} · Christy Ortega Pérez
+                <span style={{ color: '#7f4ca5', fontSize: '0.68rem', letterSpacing: '0.16em', textTransform: 'uppercase', fontWeight: 600 }}>
+                  {activeMediaModal.tipo === 'youtube' ? '🎬 Sala de Proyección · Tráiler Oficial' : '📄 Visor de Documento PDF'} · Christy Ortega Pérez
                 </span>
-                <h4 style={{ fontFamily: "'Fraunces', serif", fontSize: '1.3rem', marginTop: '0.2rem' }}>{activeMediaModal.titulo}</h4>
+                <h4 style={{ fontFamily: "'Fraunces', serif", fontSize: '1.35rem', marginTop: '0.2rem', color: '#f0ece4' }}>
+                  {activeMediaModal.titulo}
+                </h4>
               </div>
-              <button
-                onClick={() => setActiveMediaModal(null)}
-                style={{
-                  background: 'none', border: '1px solid rgba(240,236,228,0.25)', color: '#f0ece4',
-                  padding: '0.35rem 0.75rem', cursor: 'pointer', fontSize: '0.75rem',
-                }}
-              >
-                ✕ Cerrar
-              </button>
-            </div>
-
-            {activeMediaModal.tipo === 'video' ? (
-              <video
-                src={activeMediaModal.url}
-                controls
-                autoPlay
-                style={{ width: '100%', aspectRatio: '16/9', background: '#000', display: 'block' }}
-              />
-            ) : (
-              <div style={{ padding: '2.5rem', background: '#0b0b0b', border: '1px dashed rgba(127,76,165,0.45)', textAlign: 'center' }}>
-                <p style={{ color: '#a89e8e', fontSize: '0.9rem', marginBottom: '1.25rem' }}>
-                  Reemplaza la propiedad <code style={{ color: '#7f4ca5' }}>recurso.url</code> en los proyectos 8 y 9 dentro de <code style={{ color: '#7f4ca5' }}>EXPERIENCIA</code> con la ruta a tu PDF importado desde <code style={{ color: '#7f4ca5' }}>src/assets/</code>.
-                </p>
+              <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
                 <a
                   href={activeMediaModal.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    display: 'inline-block', background: '#7f4ca5', color: '#f0ece4',
-                    padding: '0.75rem 1.5rem', fontSize: '0.78rem', letterSpacing: '0.08em',
-                    textTransform: 'uppercase', textDecoration: 'none', fontWeight: 600,
+                    background: 'rgba(127,76,165,0.2)', border: '1px solid #7f4ca5', color: '#f0ece4',
+                    padding: '0.35rem 0.8rem', fontSize: '0.72rem', textDecoration: 'none',
+                    letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600,
                   }}
                 >
-                  Abrir / Descargar PDF
+                  {activeMediaModal.tipo === 'youtube' ? 'Ver en YouTube ↗' : 'Descargar PDF ↗'}
                 </a>
+                <button
+                  onClick={() => setActiveMediaModal(null)}
+                  style={{
+                    background: 'none', border: '1px solid rgba(240,236,228,0.25)', color: '#f0ece4',
+                    padding: '0.35rem 0.75rem', cursor: 'pointer', fontSize: '0.75rem',
+                  }}
+                >
+                  ✕ Cerrar
+                </button>
+              </div>
+            </div>
+
+            {activeMediaModal.tipo === 'youtube' ? (
+              (() => {
+                const ytId = getYouTubeId(activeMediaModal.url)
+                return ytId ? (
+                  <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', background: '#000', border: '1px solid rgba(127,76,165,0.3)' }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`}
+                      title={activeMediaModal.titulo}
+                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  <div style={{ padding: '2.5rem', background: '#0b0b0b', textAlign: 'center', color: '#a89e8e' }}>
+                    Enlace de YouTube no válido. Asegúrate de pegar el link completo de tu video en la propiedad <code style={{ color: '#7f4ca5' }}>url</code>.
+                  </div>
+                )
+              })()
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <iframe
+                  src={activeMediaModal.url}
+                  title={activeMediaModal.titulo}
+                  style={{ width: '100%', height: '65vh', border: '1px solid rgba(127,76,165,0.35)', background: '#1a1a1a' }}
+                />
               </div>
             )}
           </div>
         </div>
       )}
 
-      {/* PORTAFOLIO DE VIDEOS */}
+      {/* PORTAFOLIO DE VIDEOS (REELS) */}
       <section id="portafolio" style={{ padding: 'clamp(4rem, 8vw, 8rem) 2.5rem', borderBottom: '1px solid rgba(240,236,228,0.08)' }}>
         <FadeIn>
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '3.5rem', flexWrap: 'wrap', gap: '1rem' }}>
@@ -860,11 +893,11 @@ export default function App() {
                 Portafolio · Christy Ortega Pérez · Realizadora Audiovisual, Teatro y Eventos
               </div>
               <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1 }}>
-                Colaboraciones <br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}> de vídeo</em>
+                <br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}> REELS</em>
               </h2>
             </div>
             <a
-              href="https://www.instagram.com/"
+              href={INSTAGRAM_LINK}
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: '#888070', fontSize: '0.78rem', letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'color 0.2s' }}
@@ -882,7 +915,7 @@ export default function App() {
               {video.tipo === 'instagram' ? (
                 <div style={{ position: 'relative', background: '#111', overflow: 'hidden' }}>
                   {playingVideo === video.id ? (
-                    <div style={{ position: 'relative', paddingBottom: '177.77%' /* 9:16 reel */ }}>
+                    <div style={{ position: 'relative', paddingBottom: '177.77%' }}>
                       <iframe
                         src={`https://www.instagram.com/reel/${video.reelId}/embed/`}
                         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
@@ -909,7 +942,7 @@ export default function App() {
                       onClick={() => setPlayingVideo(video.id)}
                     >
                       <img
-                        src={reelCoverPlaceholder}
+                        src={video.portada || reelCoverPlaceholder}
                         alt={video.titulo}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(30%)', display: 'block', transition: 'filter 0.4s, transform 0.5s' }}
                         onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.filter = 'grayscale(0%)'; (e.currentTarget as HTMLImageElement).style.transform = 'scale(1.03)' }}
@@ -917,7 +950,6 @@ export default function App() {
                       />
                       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.1) 60%)' }} />
 
-                      {/* Instagram badge */}
                       <div style={{ position: 'absolute', top: '1rem', left: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7f4ca5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <rect x="2" y="2" width="20" height="20" rx="5" />
@@ -927,7 +959,6 @@ export default function App() {
                         <span style={{ color: '#7f4ca5', fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 600 }}>Reel</span>
                       </div>
 
-                      {/* Play button */}
                       <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <div style={{
                           width: 60, height: 60, borderRadius: '50%',
@@ -947,28 +978,13 @@ export default function App() {
                     </div>
                   )}
                 </div>
-              ) : (
-                <div style={{
-                  aspectRatio: '9/16', background: '#0d0d0d',
-                  border: '1px dashed rgba(240,236,228,0.12)',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  gap: '1rem', cursor: 'default',
-                }}>
-                  <div style={{ width: 48, height: 48, borderRadius: '50%', border: '1px dashed rgba(240,236,228,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ color: '#888070', fontSize: '1.4rem', lineHeight: 1 }}>+</span>
-                  </div>
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ color: '#888070', fontSize: '0.82rem', marginBottom: '0.3rem' }}>{video.titulo}</div>
-                    <div style={{ color: '#444', fontSize: '0.72rem' }}>{video.categoria}</div>
-                  </div>
-                </div>
-              )}
+              ) : null}
             </FadeIn>
           ))}
         </div>
       </section>
 
-      {/* EDUCACIÓN */}
+      {/* EDUCACIÓN (3 SECCIONES) */}
       <section id="educacion" style={{ padding: 'clamp(4rem, 8vw, 8rem) 2.5rem', background: '#0d0d0d', borderBottom: '1px solid rgba(240,236,228,0.08)' }}>
         <FadeIn>
           <div style={{ marginBottom: '3.5rem' }}>
@@ -981,11 +997,11 @@ export default function App() {
           </div>
         </FadeIn>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 340px), 1fr))', gap: '1px', background: 'rgba(240,236,228,0.08)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '1px', background: 'rgba(240,236,228,0.08)' }}>
           {EDUCACION.map((edu, i) => (
             <FadeIn key={i} delay={i * 70}>
               <div style={{
-                background: '#0d0d0d', padding: '2rem 2.25rem',
+                background: '#0d0d0d', padding: '2.25rem', height: '100%',
                 transition: 'background 0.25s', cursor: 'default',
               }}
                 onMouseEnter={e => (e.currentTarget.style.background = '#141118')}
@@ -1018,96 +1034,154 @@ export default function App() {
             <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2rem, 6.5vw, 5.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1, marginBottom: '2rem' }}>
               Realización que<br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}>impacta</em>
             </h2>
-            <button style={{
-              width: 68, height: 68, borderRadius: '50%',
-              border: '2px solid rgba(240,236,228,0.6)', background: 'rgba(8,8,8,0.5)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', margin: '0 auto',
-              transition: 'border-color 0.2s, background 0.2s',
-            }}
+            <a
+              href={YOUTUBE_CHANNEL_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                width: 68, height: 68, borderRadius: '50%',
+                border: '2px solid rgba(240,236,228,0.6)', background: 'rgba(8,8,8,0.5)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer', margin: '0 auto',
+                transition: 'border-color 0.2s, background 0.2s',
+                textDecoration: 'none',
+              }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = '#7f4ca5'; e.currentTarget.style.background = 'rgba(127,76,165,0.25)' }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(240,236,228,0.6)'; e.currentTarget.style.background = 'rgba(8,8,8,0.5)' }}
-              aria-label="Ver showreel"
+              aria-label="Ver canal de YouTube"
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="#f0ece4"><polygon points="8,5 19,12 8,19" /></svg>
-            </button>
+            </a>
           </div>
         </div>
       </FadeIn>
 
-      {/* CONTACT */}
-      <section id="contacto" style={{ padding: 'clamp(4rem, 8vw, 8rem) 2.5rem', borderTop: '1px solid rgba(240,236,228,0.08)' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'start' }} className="two-col">
+      {/* CONTACTO */}
+      <section id="contacto" style={{ padding: 'clamp(4.5rem, 9vw, 8.5rem) 2.5rem', borderTop: '1px solid rgba(240,236,228,0.08)', background: '#080808' }}>
+        <div
+          style={{
+            maxWidth: '1220px',
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: '1.05fr 1fr',
+            gap: 'clamp(2.5rem, 6vw, 5.5rem)',
+            alignItems: 'center',
+          }}
+          className="two-col"
+        >
+          {/* Columna Izquierda: Título grande + Texto + Botón Contactar */}
           <FadeIn>
             <div>
-              <div style={{ color: '#888070', fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-                Contacto · Christy Ortega Pérez · Realizadora Audiovisual, Teatro y Eventos
+              <div style={{ color: '#888070', fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '1rem' }}>
+                Contacto · Christy Ortega Pérez
               </div>
-              <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1, marginBottom: '1.75rem' }}>
-                Trabajemos<br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}>juntos</em>
+              <h2 style={{
+                fontFamily: "'Outfit', system-ui, sans-serif",
+                fontSize: 'clamp(2.4rem, 5vw, 4.25rem)',
+                fontWeight: 800,
+                letterSpacing: '-0.03em',
+                lineHeight: 1.06,
+                marginBottom: '1.75rem',
+                color: '#f0ece4',
+              }}>
+                ¿Tienes un<br />
+                <span style={{ color: '#7f4ca5' }}>Proyecto</span><br />
+                <span style={{ color: '#7f4ca5' }}>en mente?</span>
               </h2>
-              <p style={{ color: '#a89e8e', fontSize: '0.95rem', lineHeight: 1.75, marginBottom: '2.5rem', maxWidth: 420 }}>
-                Disponible para proyectos de realización audiovisual, producción de teatro, cobertura de eventos en vivo, rodajes estudiantiles e independientes.
+
+              <p style={{
+                color: '#8e8a96',
+                fontSize: '1.02rem',
+                lineHeight: 1.75,
+                marginBottom: '2.5rem',
+                maxWidth: 520,
+              }}>
+                Enfocada en aportar valor a producciones audiovisuales, obras de teatro y eventos en vivo de alto impacto. Busco integrarme a equipos creativos y rodajes donde pueda aplicar mi formación técnica (Dirección, Cámara, Iluminación, Adobe Premiere , Davinci y Guion) para construir narrativas visuales memorables. ¿Hablamos?
               </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
-                {[
-                  { label: 'Nombre', value: 'Christy Ortega Pérez' },
-                  { label: 'Perfil', value: 'Realizadora Audiovisual, Teatro y Eventos (Estudiante de Audiovisuales)' },
-                  { label: 'Email', value: 'demarketingseo.online@gmail.com' },
-                  { label: 'Tel 1', value: '0424-358.17.45' },
-                  { label: 'Tel 2', value: '0412-363.37.10' },
-                  { label: 'Ubicación', value: 'La Victoria, Aragua, Venezuela' },
-                ].map(item => (
-                  <div key={item.label} style={{ display: 'flex', gap: '1.5rem', alignItems: 'baseline', borderBottom: '1px solid rgba(240,236,228,0.06)', paddingBottom: '0.85rem' }}>
-                    <span style={{ color: '#888070', fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', minWidth: 70 }}>{item.label}</span>
-                    <span style={{ color: '#f0ece4', fontSize: '0.88rem' }}>{item.value}</span>
-                  </div>
-                ))}
-              </div>
+
+              <a
+                href={`mailto:${EMAIL_CONTACTO}?subject=Contacto%20desde%20Portafolio%20Web%20-%20Christy%20Ortega%20P%C3%A9rez`}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.65rem',
+                  background: '#7f4ca5',
+                  color: '#f0ece4',
+                  padding: '1.05rem 2.2rem',
+                  fontSize: '0.95rem',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  letterSpacing: '0.02em',
+                  transition: 'transform 0.2s, background 0.2s, box-shadow 0.2s',
+                  boxShadow: '0 8px 28px rgba(127,76,165,0.28)',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = '#9158bc'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = '#7f4ca5'
+                  e.currentTarget.style.transform = 'none'
+                }}
+              >
+                <span>Contactar</span>
+                <span style={{ fontSize: '1.05rem', lineHeight: 1 }}>↗</span>
+              </a>
             </div>
           </FadeIn>
 
+          {/* Columna Derecha: Cajas de contacto (Email, Instagram, YouTube) */}
           <FadeIn delay={120}>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: 'rgba(240,236,228,0.08)' }}>
-              {sent && (
-                <div style={{ background: 'rgba(127,76,165,0.15)', border: '1px solid rgba(127,76,165,0.5)', padding: '1rem 1.25rem', color: '#7f4ca5', fontSize: '0.85rem', marginBottom: '0.5rem' }}>
-                  Mensaje enviado. Te respondo pronto.
-                </div>
-              )}
-              {[
-                { key: 'name', label: 'Nombre', type: 'text', placeholder: 'Tu nombre' },
-                { key: 'email', label: 'Email', type: 'email', placeholder: 'tu@email.com' },
-              ].map(field => (
-                <div key={field.key} style={{ background: '#0d0d0d', padding: '1.25rem 1.5rem' }}>
-                  <label style={{ display: 'block', color: '#888070', fontSize: '0.66rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>{field.label}</label>
-                  <input
-                    type={field.type} required placeholder={field.placeholder}
-                    value={formData[field.key as 'name' | 'email']}
-                    onChange={e => setFormData(d => ({ ...d, [field.key]: e.target.value }))}
-                    style={{ width: '100%', background: 'none', border: 'none', outline: 'none', color: '#f0ece4', fontSize: '0.92rem', fontFamily: "'Outfit', sans-serif" }}
-                  />
-                </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {CANALES_CONTACTO.map(item => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '1rem',
+                    padding: '1.45rem 1.75rem',
+                    background: '#0c0b10',
+                    border: '1px solid rgba(240,236,228,0.1)',
+                    textDecoration: 'none',
+                    transition: 'border-color 0.25s, background 0.25s, transform 0.2s',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = '#7f4ca5'
+                    e.currentTarget.style.background = 'rgba(127,76,165,0.12)'
+                    e.currentTarget.style.transform = 'translateX(4px)'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = 'rgba(240,236,228,0.1)'
+                    e.currentTarget.style.background = '#0c0b10'
+                    e.currentTarget.style.transform = 'none'
+                  }}
+                >
+                  <span style={{
+                    color: '#7e788c',
+                    fontSize: '0.75rem',
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    fontWeight: 600,
+                  }}>
+                    {item.label}
+                  </span>
+                  <span style={{
+                    color: '#f0ece4',
+                    fontSize: '0.95rem',
+                    fontWeight: 500,
+                    textAlign: 'right',
+                    wordBreak: 'break-all',
+                  }}>
+                    {item.value}
+                  </span>
+                </a>
               ))}
-              <div style={{ background: '#0d0d0d', padding: '1.25rem 1.5rem' }}>
-                <label style={{ display: 'block', color: '#888070', fontSize: '0.66rem', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Mensaje</label>
-                <textarea required rows={5} placeholder="Contame sobre tu proyecto audiovisual, obra teatral o evento..."
-                  value={formData.message}
-                  onChange={e => setFormData(d => ({ ...d, message: e.target.value }))}
-                  style={{ width: '100%', background: 'none', border: 'none', outline: 'none', color: '#f0ece4', fontSize: '0.92rem', fontFamily: "'Outfit', sans-serif", resize: 'none' }}
-                />
-              </div>
-              <button type="submit" style={{
-                background: '#7f4ca5', color: '#f0ece4',
-                padding: '1.25rem', fontSize: '0.8rem', letterSpacing: '0.1em',
-                textTransform: 'uppercase', fontWeight: 700, border: 'none',
-                cursor: 'pointer', fontFamily: "'Outfit', sans-serif", transition: 'opacity 0.2s',
-              }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-              >
-                Enviar Mensaje →
-              </button>
-            </form>
+            </div>
           </FadeIn>
         </div>
       </section>
@@ -1128,12 +1202,21 @@ export default function App() {
           © 2026 · Christy Ortega Pérez · Estudiante de Audiovisuales
         </span>
         <div style={{ display: 'flex', gap: '1.5rem' }}>
-          {['Instagram', 'LinkedIn', 'Vimeo'].map(net => (
-            <a key={net} href="#" style={{ color: '#888070', fontSize: '0.73rem', letterSpacing: '0.06em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}
+          {[
+            { name: 'Email', href: `mailto:${EMAIL_CONTACTO}`, external: false },
+            { name: 'Instagram', href: INSTAGRAM_LINK, external: true },
+            { name: 'YouTube', href: YOUTUBE_CHANNEL_LINK, external: true },
+          ].map(net => (
+            <a
+              key={net.name}
+              href={net.href}
+              target={net.external ? '_blank' : undefined}
+              rel={net.external ? 'noopener noreferrer' : undefined}
+              style={{ color: '#888070', fontSize: '0.73rem', letterSpacing: '0.06em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#7f4ca5')}
               onMouseLeave={e => (e.currentTarget.style.color = '#888070')}
             >
-              {net}
+              {net.name}
             </a>
           ))}
         </div>
@@ -1157,23 +1240,14 @@ export default function App() {
           .nav-links { display: none !important; }
           .mobile-menu-btn { display: flex !important; }
           .two-col { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+          #perfil img {
+            object-position: center 50% !important;
+          }
         }
         @media (max-width: 600px) {
           #hero { padding-bottom: 3rem !important; }
           footer { flex-direction: column; text-align: center; }
           div[style*="repeat(4, 1fr)"] { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        input::placeholder, textarea::placeholder { color: #3a3530; }
-
-        @media (max-width: 920px) {
-          .nav-links { display: none !important; }
-          .mobile-menu-btn { display: flex !important; }
-          .two-col { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
-          
-          /* --- AGREGA ESTO PARA CENTRAR LA FOTO EN MÓVIL --- */
-          #perfil img {
-            object-position: center 50% !important;
-          }
         }
       `}</style>
     </div>
