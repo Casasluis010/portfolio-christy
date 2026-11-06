@@ -7,7 +7,6 @@ import portadaCocacola from './assets/images/cocacola.jpg'
 import portadaFlores from './assets/images/flores.jpg'
 
 const reelCoverPlaceholder = 'https://placehold.co/600x1067/161616/7f4ca5?text=Portada+Reel'
-const showreelBannerPlaceholder = 'https://placehold.co/1800x800/111111/7f4ca5?text=Fondo+Showreel'
 const videoThumbPlaceholder = 'https://placehold.co/640x360/141414/7f4ca5?text=Trailer+YouTube'
 
 // --- DATOS DE CONTACTO CENTRALIZADOS (YA ACTUALIZADOS CON TUS 3 LINKS) ---
@@ -1017,44 +1016,6 @@ export default function App() {
           ))}
         </div>
       </section>
-
-      {/* REEL STRIP */}
-      <FadeIn>
-        <div style={{ position: 'relative', overflow: 'hidden', height: 'clamp(240px, 35vw, 460px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img
-            src={showreelBannerPlaceholder}
-            alt="Producción audiovisual Christy Ortega Pérez"
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(40%)' }}
-          />
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(8,8,8,0.72)' }} />
-          <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 1.5rem' }}>
-            <div style={{ color: '#7f4ca5', fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '1.25rem', fontWeight: 600 }}>
-              Christy Ortega Pérez · Realizadora Audiovisual, Teatro y Eventos · Showreel
-            </div>
-            <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(2rem, 6.5vw, 5.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1, marginBottom: '2rem' }}>
-              Realización que<br /><em style={{ fontStyle: 'italic', color: '#7f4ca5' }}>impacta</em>
-            </h2>
-            <a
-              href={YOUTUBE_CHANNEL_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                width: 68, height: 68, borderRadius: '50%',
-                border: '2px solid rgba(240,236,228,0.6)', background: 'rgba(8,8,8,0.5)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: 'pointer', margin: '0 auto',
-                transition: 'border-color 0.2s, background 0.2s',
-                textDecoration: 'none',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = '#7f4ca5'; e.currentTarget.style.background = 'rgba(127,76,165,0.25)' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(240,236,228,0.6)'; e.currentTarget.style.background = 'rgba(8,8,8,0.5)' }}
-              aria-label="Ver canal de YouTube"
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="#f0ece4"><polygon points="8,5 19,12 8,19" /></svg>
-            </a>
-          </div>
-        </div>
-      </FadeIn>
 
       {/* CONTACTO */}
       <section id="contacto" style={{ padding: 'clamp(4.5rem, 9vw, 8.5rem) 2.5rem', borderTop: '1px solid rgba(240,236,228,0.08)', background: '#080808' }}>
